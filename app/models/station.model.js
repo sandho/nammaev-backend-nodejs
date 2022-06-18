@@ -8,6 +8,7 @@ const LocationSchema = mongoose.Schema({
 });
 
 const StationSchema = mongoose.Schema({
+    stationID: String,
     location: LocationSchema,
     type: String,
     availability: Boolean,

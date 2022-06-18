@@ -3,5 +3,6 @@ module.exports = (app) => {
 
     app.get('/rating', rating.findAll);
     app.post('/rating', rating.create);
+    app.get('/rating/:id', rating.findOne);
 
 }

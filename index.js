@@ -2,14 +2,14 @@ require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 
-// create express app
 const app = express();
+app.use(express.json());
 
-// parse application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }))
-
-// parse application/json
-app.use(express.json())
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 // Configuring the database
 const dbConfig = require('./config/database.config.js');

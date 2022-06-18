@@ -28,3 +28,26 @@ exports.create = (req, res) => {
         });
     });
 };
+
+exports.findOne = (req, res) => {
+    RatingModel.find({
+        stationID: req.params.id
+    })
+    .then(rating => {
+        if(!rating) {
+            return res.status(404).send({
+                message: "Rating not found with id " + req.params.id
+            });            
+        }
+        res.send(rating);
+    }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Rating not found with id " + req.params.id
+            });                
+        }
+        return res.status(500).send({
+            message: "Error retrieving Rating with id " + req.params.id
+        });
+    });
+}
