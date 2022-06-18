@@ -1,4 +1,5 @@
 const RatingModel = require("../models/rating.model");
+const { check, oneOf, validationResult } = require('express-validator');
 
 exports.findAll = (req, res) => {
     RatingModel.find()
@@ -18,6 +19,16 @@ exports.findAll = (req, res) => {
 };
 
 exports.create = (req, res) => {
+    const result = validationResult(req);
+
+    if (!result.isEmpty()) {
+        return res.status(400).send({
+            code: 400,
+            message: result || "Error validation",
+            data: null
+        });
+    }
+
     const rating = new RatingModel({
         stationID: req.body.station,
         report: req.body.report || false,

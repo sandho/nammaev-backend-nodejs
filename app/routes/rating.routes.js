@@ -1,8 +1,13 @@
+const { check, oneOf, validationResult } = require("express-validator");
+const rating = require("../controllers/rating.controller.js");
+
 module.exports = (app) => {
-    const rating = require('../controllers/rating.controller.js');
 
-    app.get('/rating', rating.findAll);
-    app.post('/rating', rating.create);
-    app.get('/rating/:id', rating.findOne);
-
-}
+  app.get("/api/rating", rating.findAll);
+  app.post("/api/rating", [
+    check('comment').notEmpty(),
+    check('station').notEmpty(),
+    check('rating').isFloat({ min: 0.1, max: 5 })
+  ], rating.create);
+  app.get("/api/rating/:id", rating.findOne);
+};

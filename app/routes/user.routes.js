@@ -1,6 +1,6 @@
 module.exports = (app) => {
     const users = require('../controllers/user.controller.js');
 
-    app.get('/user', users.findAll);
+    app.get('/api/user', users.findAll);
 
 }
