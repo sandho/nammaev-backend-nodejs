@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
 require('./app/routes/user.routes.js')(app);
 require('./app/routes/station.routes.js')(app);
 require('./app/routes/rating.routes.js')(app);
+require('./app/routes/product.routes.js')(app);
 
 // listen for requests
 app.listen(process.env.PORT || 5000, () => {
