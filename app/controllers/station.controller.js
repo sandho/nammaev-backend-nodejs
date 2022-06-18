@@ -3,10 +3,16 @@ const StationModel = require("../models/station.model");
 exports.findAll = (req, res) => {
     StationModel.find()
         .then(stations => {
-            res.send(stations);
+            res.send({
+                code: 200,
+                message: "Stations data loaded successfully",
+                data: stations
+            });
         }).catch(err => {
             res.status(500).send({
-                message: err.message || "Some error occurred while retrieving stations."
+                code: 500,
+                message: err.message || "Some error occurred while retrieving stations.",
+                data: null
             });
         });
 };
@@ -21,11 +27,17 @@ exports.create = (req, res) => {
     });
 
     station.save()
-    .then(data => {
-        res.send(data);
+    .then(stationData => {
+        res.send({
+            code: 200,
+            message: "Station data created successfully",
+            data: stationData
+        });
     }).catch(err => {
         res.status(500).send({
-            message: err.message || "Some error occurred while creating the Station."
+            code: 500,
+            message: err.message || "Some error occurred while creating the Station.",
+            data: null
         });
     });
 }
@@ -35,19 +47,22 @@ exports.findOne = (req, res) => {
     .then(station => {
         if(!station) {
             return res.status(404).send({
-                message: "Station not found with id " + req.params.id
+                code: 404,
+                message: "Station not found with id " + req.params.id,
+                data: null
             });            
         }
 
-        res.send(station.filter(station => station.stationID === req.params.id));
+        res.send({
+            code: 200,
+            message: "Station data loaded successfully",
+            data: station.filter(station => station.stationID === req.params.id)
+        });
     }).catch(err => {
-        if(err.kind === 'ObjectId') {
-            return res.status(404).send({
-                message: "Station not found with id " + req.params.id
-            });                
-        }
         return res.status(500).send({
-            message: "Error retrieving Station with id " + req.params.id
+            code: 500,
+            message: err.message || "Error retrieving Station with id " + req.params.id,
+            data: null
         });
     });
 }

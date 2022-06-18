@@ -3,10 +3,16 @@ const RatingModel = require("../models/rating.model");
 exports.findAll = (req, res) => {
     RatingModel.find()
         .then(ratings => {
-            res.send(ratings);
+            res.send({
+                code: 200,
+                message: "Rating loaded successfully",
+                data: ratings
+            });
         }).catch(err => {
             res.status(500).send({
-                message: err.message || "Some error occurred while retrieving ratings."
+                code: 500,
+                message: err.message || "Some error occurred while retrieving ratings.",
+                data: null
             });
         });
 };
@@ -20,11 +26,17 @@ exports.create = (req, res) => {
     });
 
     rating.save()
-    .then(data => {
-        res.send(data);
+    .then(ratingData => {
+        res.send({
+            code: 200,
+            message: "Rating created successfully",
+            data: ratingData
+        });
     }).catch(err => {
         res.status(500).send({
-            message: err.message || "Some error occurred while creating the Rating."
+            code: 500,
+            message: err.message || "Some error occurred while creating the Rating.",
+            data: null
         });
     });
 };
@@ -36,18 +48,17 @@ exports.findOne = (req, res) => {
     .then(rating => {
         if(!rating) {
             return res.status(404).send({
-                message: "Rating not found with id " + req.params.id
+                code: 404,
+                message: "Rating not found with id " + req.params.id,
+                data: null
             });            
         }
         res.send(rating);
     }).catch(err => {
-        if(err.kind === 'ObjectId') {
-            return res.status(404).send({
-                message: "Rating not found with id " + req.params.id
-            });                
-        }
         return res.status(500).send({
-            message: "Error retrieving Rating with id " + req.params.id
+            code: 500,
+            message: err.message || "Error retrieving Rating with id " + req.params.id ,
+            data: null
         });
     });
 }
