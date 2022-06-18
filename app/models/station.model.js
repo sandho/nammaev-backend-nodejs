@@ -13,7 +13,8 @@ const StationSchema = mongoose.Schema({
     type: String,
     availability: Boolean,
     distance: String,
-    price: String
+    price: String,
+    avatar: String
 }, {
     timestamps: true
 });
