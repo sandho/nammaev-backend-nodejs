@@ -18,14 +18,14 @@ exports.findAll = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    
+
     var avatar = ""
 
     switch (req.body.type) {
-        case HOME:
+        case "HOME":
             avatar = "https://nammaev.testzy.tech/assets/home.png"
             break;
-        case POWER:
+        case "POWER":
             avatar = "https://nammaev.testzy.tech/assets/power.png"
             break;  
         default:
