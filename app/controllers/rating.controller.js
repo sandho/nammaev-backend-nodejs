@@ -46,7 +46,7 @@ exports.create = (req, res) => {
         const rating = new RatingModel({
             stationID: req.body.station,
             report: req.body.report || false,
-            comment: req.brody.comment,
+            comment: req.body.comment,
             rating: req.body.rating
         });
 
