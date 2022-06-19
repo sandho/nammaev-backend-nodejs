@@ -44,29 +44,23 @@ exports.create = (req, res) => {
         
         // creating rating
         const rating = new RatingModel({
-            stationID: req.body.station || "",
+            stationID: req.body.station,
             report: req.body.report || false,
-            comment: req.body.comment || "",
-            rating: req.body.rating || ""
+            comment: req.brody.comment,
+            rating: req.body.rating
         });
-
-        if (req.body.report) {
-            msg = "Report submitted successfully"
-        } else {
-            msg = "Rating submitted successfully";
-        }
     
         rating.save()
         .then(ratingData => {
             res.send({
                 code: 200,
-                message: msg,
+                message: "Rating created successfully",
                 data: ratingData
             });
         }).catch(err => {
             res.status(500).send({
                 code: 500,
-                message: err.message || "Some error occurred while submitted the Rating.",
+                message: err.message || "Some error occurred while creating the Rating.",
                 data: null
             });
         });
