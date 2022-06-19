@@ -18,28 +18,44 @@ exports.findAll = (req, res) => {
 };
 
 exports.create = (req, res) => {
+    
+    var avatar = ""
+
+    switch (req.body.type) {
+        case HOME:
+            avatar = "https://nammaev.testzy.tech/assets/home.png"
+            break;
+        case POWER:
+            avatar = "https://nammaev.testzy.tech/assets/power.png"
+            break;  
+        default:
+            avatar = "https://nammaev.testzy.tech/assets/repair.png"
+            break;
+    }
+
     const station = new StationModel({
         location: req.body.location,
         type: req.body.type,
         availability: req.body.availability,
         distance: req.body.distance,
-        price: req.body.price
+        price: req.body.price,
+        avatar: avatar
     });
 
     station.save()
-    .then(stationData => {
-        res.send({
-            code: 200,
-            message: "Station data created successfully",
-            data: stationData
+        .then(stationData => {
+            res.send({
+                code: 200,
+                message: "Station data created successfully",
+                data: stationData
+            });
+        }).catch(err => {
+            res.status(500).send({
+                code: 500,
+                message: err.message || "Some error occurred while creating the Station.",
+                data: null
+            });
         });
-    }).catch(err => {
-        res.status(500).send({
-            code: 500,
-            message: err.message || "Some error occurred while creating the Station.",
-            data: null
-        });
-    });
 }
 
 exports.findOne = (req, res) => {
