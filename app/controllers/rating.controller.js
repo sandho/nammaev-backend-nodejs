@@ -49,12 +49,20 @@ exports.create = (req, res) => {
             comment: req.brody.comment,
             rating: req.body.rating
         });
+
+        var msg = ""
+
+        if (req.body.report == true) {
+            msg = "Report submitted successfully";
+        } else {
+            msg = "Rating submitted successfully"
+        }
     
         rating.save()
         .then(ratingData => {
             res.send({
                 code: 200,
-                message: "Rating created successfully",
+                message: msg,
                 data: ratingData
             });
         }).catch(err => {
